@@ -1,29 +1,28 @@
 package com.bigO.via;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-
-import android.os.Bundle;
-import android.view.MenuItem;
-
 import com.google.android.material.navigation.NavigationView;
 
 import io.mapwize.mapwizesdk.core.MapwizeConfiguration;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_base);
 
         MapwizeConfiguration config = new MapwizeConfiguration.Builder(this, "82a148cb703ba7fc2f0e50bbb3e31902").build();
         MapwizeConfiguration.start(config);
@@ -40,24 +39,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.home);
-        }
-
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case R.id.home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+                intent = new Intent(this, HomeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.search:
+                intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
                 break;
             case R.id.bookmarks:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new BookmarksFragment()).commit();
+                intent = new Intent(this, BookmarksActivity.class);
+                startActivity(intent);
                 break;
             case R.id.schedules:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SchedulesFragment()).commit();
+                intent = new Intent(this, SchedulesActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.settings:
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.privacy:
+                intent = new Intent(this, PrivacyPolicyActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.help:
+                intent = new Intent(this, HelpAndFeedbackActivity.class);
+                startActivity(intent);
                 break;
         }
 
